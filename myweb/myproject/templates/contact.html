@@ -2,8 +2,24 @@
 
 {% block title %}Contact Us{% endblock %}
 
+{% block css %}
+<style>
+.googleReviews img{
+margin-left: 20px;
+}
+</style>
+{% endblock %}
+
 {% block body %}
 
+<section>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.4513248662324!2d75.88303331496209!3d22.711460385111486!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fd4003fd607b%3A0xaff63df2d6e41b58!2sToast%20%26%20Berries!5e0!3m2!1sen!2sin!4v1628176048759!5m2!1sen!2sin"
+            width="98%" height="450" style="border:0; margin:14px;" allowfullscreen="" loading="lazy"></iframe>
+</section>
+
+<div class="googleReviews">
+        <script defer async src='https://cdn.trustindex.io/loader.js?6340bd0349f01441d95c941224'></script>
+    </div>
 
 <div class="container my-3">
 
@@ -27,7 +43,7 @@
             <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
         </div>
 
-      <button type="submit" class="btn btn-success">Submit</button>
+        <button type="submit" class="btn btn-success">Submit</button>
 
     </form>
 

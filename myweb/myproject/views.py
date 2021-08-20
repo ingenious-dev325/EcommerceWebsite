@@ -1,18 +1,35 @@
 import json
 from math import ceil
-from .Paytm import Checksum
 
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Product, Contact, Order, OrderUpdate
+from .Paytm import Checksum
+from .models import Product, Contact, Order, OrderUpdate, Register
 
-# MERCHANT_KEY = 'Your-Merchant-Key-Here'
+MERCHANT_KEY = '';
 
 
 # Create your views here.
-def index(request):
+def front(request):
+    return render(request, 'front.html')
+
+
+def products(request):
+    allProds = []
+    catProds = Product.objects.values('category', 'id')
+    cats = {item['category'] for item in catProds}
+    for cat in cats:
+        prod = Product.objects.filter(category=cat)
+        n = len(prod)
+        nSlides = n // 4 + ceil((n / 4) - (n // 4))
+        allProds.append([prod, range(1, nSlides), nSlides])
+    params = {'allProds': allProds}
+    return render(request, 'products.html', params)
+
+
+def boxoffour(request):
     # products = Product.objects.all()
     # print(products)
     # n = len(products)
@@ -31,7 +48,15 @@ def index(request):
     # allProds = [[products, range(1, nSlides), nSlides],
     #             [products, range(1, nSlides), nSlides]]
     params = {'allProds': allProds}
-    return render(request, 'index.html', params)
+    return render(request, 'boxoffour.html', params)
+
+
+def login(request):
+    return render(request, 'login.html')
+
+
+def register(request):
+    return render(request, 'register.html')
 
 
 def about(request):
@@ -71,8 +96,31 @@ def tracker(request):
     return render(request, 'tracker.html')
 
 
+def searchMatch(query, item):
+    # return true only if query matches the item
+    if query in item.desc.lower() or query in item.product_name.lower() or query in item.category.lower() or query in item.subcategory.lower():
+        return True
+    else:
+        return False
+
+
 def search(request):
-    return render(request, 'search.html')
+    query = request.GET.get('search')
+    allProds = []
+    catprods = Product.objects.values('category', 'id')
+    cats = {item['category'] for item in catprods}
+    for cat in cats:
+        prodtemp = Product.objects.filter(category=cat)
+        prod = [item for item in prodtemp if searchMatch(query, item)]
+
+        n = len(prod)
+        nSlides = n // 4 + ceil((n / 4) - (n // 4))
+        if len(prod) != 0:
+            allProds.append([prod, range(1, nSlides), nSlides])
+    params = {'allProds': allProds, "msg": ""}
+    if len(allProds) == 0 or len(query) < 4:
+        params = {'msg': "Please make sure to enter relevant search query"}
+    return render(request, 'search.html', params)
 
 
 def productView(request, myid):
@@ -91,7 +139,7 @@ def checkout(request):
         email = request.POST.get('email', '')
         phone = request.POST.get('phone', '')
         add1 = request.POST.get('add1', '')
-        add2 = request.POST.get('add1', '')
+        add2 = request.POST.get('add2', '')
         country = request.POST.get('country', '')
         state = request.POST.get('state', '')
         zip_code = request.POST.get('zip_code', '')
@@ -103,28 +151,70 @@ def checkout(request):
         update.save()
         thank = True
         id = order.order_id
-        return render(request, 'checkout.html', {'thank': thank, 'id': id})
-        # request paytm to transfer the amount to your account after payment by user.
-        # param_dict = {
-        #
-        #     'MID': 'Your-Merchant-Id-Here',
-        #     'ORDER_ID': str(order.order_id),
-        #     'TXN_AMOUNT': str(amount),
-        #     'CUST_ID': email,
-        #     'INDUSTRY_TYPE_ID': 'Retail',
-        #     'WEBSITE': 'WEBSTAGING',
-        #     'CHANNEL_ID': 'WEB',
-        #     'CALLBACK_URL': 'http://127.0.0.1:8000/handlerequest/',
-        #
-        # }
-        # param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
-        # return render(request, 'paytm.html', {'param_dict': param_dict})
+        # return render(request, 'checkout.html', {'thank': thank, 'id': id})
+        # # request paytm to transfer the amount to your account after payment by user.
+        param_dict = {
+
+            'MID': '',
+            'ORDER_ID': str(order.order_id),
+            'TXN_AMOUNT': str(amount),
+            'CUST_ID': email,
+            'INDUSTRY_TYPE_ID': 'Retail',
+            'WEBSITE': 'WEBSTAGING',
+            'CHANNEL_ID': 'WEB',
+            'CALLBACK_URL': 'http://127.0.0.1:8000/handlerequest/',
+
+        }
+        param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
+        return render(request, 'paytm.html', {'param_dict': param_dict})
     return render(request, 'checkout.html')
+
+
+def boxcheckout(request):
+    if request.method == "POST":
+        items_json = request.POST.get('itemsJson', '')
+        amount = request.POST.get('amount', '')
+        fname = request.POST.get('fname', '')
+        lname = request.POST.get('lname', '')
+        uname = request.POST.get('uname', '')
+        email = request.POST.get('email', '')
+        phone = request.POST.get('phone', '')
+        add1 = request.POST.get('add1', '')
+        add2 = request.POST.get('add1', '')
+        country = request.POST.get('country', '')
+        state = request.POST.get('state', '')
+        zip_code = request.POST.get('zip_code', '')
+        order = Order(items_json=items_json, amount=amount, fname=fname, lname=lname, uname=uname, email=email,
+                      phone=phone, add1=add1,
+                      add2=add2, country=country, state=state, zip_code=zip_code)
+        order.save()
+        update = OrderUpdate(order_id=order.order_id, update_desc="Your Order has been placed Successfully...")
+        update.save()
+        thank = True
+        id = order.order_id
+        # return render(request, 'boxcheckout.html', {'thank': thank, 'id': id})
+        # request paytm to transfer the amount to your account after payment by user.
+        param_dict = {
+
+            'MID': '',
+            'ORDER_ID': str(order.order_id),
+            'TXN_AMOUNT': str(amount),
+            'CUST_ID': email,
+            'INDUSTRY_TYPE_ID': 'Retail',
+            'WEBSITE': 'WEBSTAGING',
+            'CHANNEL_ID': 'WEB',
+            'CALLBACK_URL': 'http://127.0.0.1:8000/handlerequest/',
+
+        }
+        param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
+        return render(request, 'paytm.html', {'param_dict': param_dict})
+    return render(request, 'boxcheckout.html')
 
 
 @csrf_exempt
 def handlerequest(request):
     # paytm will send you post request here
+    # return HttpResponse('Done')
     form = request.POST
     response_dict = {}
     for i in form.keys():
