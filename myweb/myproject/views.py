@@ -1,14 +1,16 @@
 import json
 from math import ceil
-
-from django.http import HttpResponse
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from .Paytm import Checksum
 from .models import Product, Contact, Order, OrderUpdate, Register
 
-MERCHANT_KEY = '';
+MERCHANT_KEY = 're4IKy2WlZxGssBe';
 
 
 # Create your views here.
@@ -52,11 +54,35 @@ def boxoffour(request):
 
 
 def login(request):
-    return render(request, 'login.html')
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    else:
+        username = request.POST.get("uname")
+        password = request.POST.get("password")
+        res = Register(username=username, password=password)
+        if len(res) > 0:
+            return render(request, 'front.html', {'output': "Login Successful"})
+        else:
+            return render(request, 'login.html', {'output': "Login Failed!!!"})
 
 
 def register(request):
-    return render(request, 'register.html')
+    if request.method == 'GET':
+        return render(request, 'register.html')
+    else:
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        phone = request.POST.get("phone")
+        register = Register(username=username, email=email, password=password, phone=phone)
+        register.save()
+    return render(request, 'login.html', {'output': "Register Successfully"})
+
+
+@login_required()
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('login'))
 
 
 def about(request):
@@ -155,7 +181,7 @@ def checkout(request):
         # # request paytm to transfer the amount to your account after payment by user.
         param_dict = {
 
-            'MID': '',
+            'MID': 'UQyjWv73914192289471',
             'ORDER_ID': str(order.order_id),
             'TXN_AMOUNT': str(amount),
             'CUST_ID': email,
@@ -180,7 +206,7 @@ def boxcheckout(request):
         email = request.POST.get('email', '')
         phone = request.POST.get('phone', '')
         add1 = request.POST.get('add1', '')
-        add2 = request.POST.get('add1', '')
+        add2 = request.POST.get('add2', '')
         country = request.POST.get('country', '')
         state = request.POST.get('state', '')
         zip_code = request.POST.get('zip_code', '')
@@ -196,7 +222,7 @@ def boxcheckout(request):
         # request paytm to transfer the amount to your account after payment by user.
         param_dict = {
 
-            'MID': '',
+            'MID': 'UQyjWv73914192289471',
             'ORDER_ID': str(order.order_id),
             'TXN_AMOUNT': str(amount),
             'CUST_ID': email,

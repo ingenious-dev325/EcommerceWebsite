@@ -13,11 +13,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link  rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+<!--    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}">-->
+
 
     <title>{% block title %} {% endblock %}</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@200;300;400;500;600;700&display=swap');
 
         footer {
             width: 100%;
@@ -176,10 +178,11 @@
                 padding-left: 0;
             }
         }
+
     </style>
 
 
-        {% block css %}{% endblock %}
+    {% block css %}{% endblock %}
 
 </head>
 
@@ -197,12 +200,10 @@
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'front' %}">Home</a>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
-                <li class="nav-item"><a class="nav-link" href="/boxoffour" style="height:37.5px;width:80px">Box Of 4</a>
-                </li>
                 <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="/tracker">Tracker</a></li>
                 <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
                 <li class="nav-item"><a class="nav-link" href="/login">Login/Register</a></li>
+<!--                <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>-->
 
             </ul>
             <form class="d-flex my-2 my-lg-0" method="get" action="/search/">

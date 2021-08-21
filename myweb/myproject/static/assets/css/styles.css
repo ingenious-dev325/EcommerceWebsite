@@ -4022,13 +4022,15 @@ textarea.form-control-lg {
 }
 
 .navbar {
-  position: relative;
+  position: fixed;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  border-radius: 0px;
 }
 .navbar > .container,
 .navbar > .container-fluid,
@@ -4326,6 +4328,7 @@ textarea.form-control-lg {
     overflow-y: visible;
   }
 }
+
 @media (min-width: 1400px) {
   .navbar-expand-xxl {
     flex-wrap: nowrap;
@@ -9575,7 +9578,7 @@ textarea.form-control-lg {
   }
 
   .my-lg-0 {
-    margin-top: 0 !important;
+    margin-top: 11;
     margin-bottom: 0 !important;
   }
 
