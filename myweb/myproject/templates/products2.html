@@ -8,26 +8,22 @@ background-image:src="{% static 'images/pattern.jpg' %}";
 height:250px;
 width:216px;
 }
-.col-md-4
-{
-display: inline-grid;
-margin: 20px 10px;
-}
-}
-.col-md-4 img{
-max-width:227px;
-height:242px;
-}
+
 body .no-padding{
 padding-left: 350px;
 padding-right: 350px;
 }
 
-.my-flex-card > div > div.card {
+.my-flex-card > div > div > div.card {
     justify-content:space-around;
     height: calc(100% - 55px);
     margin-bottom: 15px;
 }
+
+
+
+
+
 
 
 
@@ -37,22 +33,24 @@ padding-right: 350px;
 {% load static %}
 <body>
 <div class="container" style="margin-left:15px">
+    <div class="row my-flex-card">
     {% for product, range, nSlides in allProds %}
-    <h2 style="text-transform: capitalize">{{product.0.category}}</h2>
+    <center><h2 style="text-transform: capitalize">{{product.0.category}}</h2></center>
     <center><h3 style="text-transform: capitalize">{{product.0.subcategory}}</h3></center>
     <div class="row my-flex-card">
         {% for i in product %}
-        <div class="col-xs-4 col-sm-4 col-md-4">
-            <div class="card align-items-center" style="width: 18rem;">
-                <img src='/media/{{i.image}}' class="card-img-top" alt="...">
+
+        <div class="col-lg-4 col-md-4 col-8" >
+            <div class="card align-items-center" style="width: 140; padding-left: 10px; height: 150;">
+                <img src='/media/{{i.image}}' class="card-img-top" alt="..." style="width: 120; padding-left: 2px; padding-right: 2px; height: 150;">
                 <div class="card-body">
                     <h6 class="card-title" id="namepr{{i.id}}">{{i.product_name|slice:"0:23"}}</h6>
                     <p class="card-text">{{i.desc|slice:"0:40"}}...</p><br>
                     <h6 class="card-title">Rs. <span id="pricepr{{i.id}}">{{i.price}}</span>
                     </h6>
                     <span id="divpr{{i.id}}" class="divpr">
-                                    <button id="pr{{i.id}}" class="btn btn-primary cart">Add To Cart</button>
-                                </span>
+                        <button id="pr{{i.id}}" class="btn btn-primary cart">Add To Cart</button>
+                    </span>
                     <a href="/products/{{i.id}}">
                         <button id="qv{{i.id}}" class="btn btn-primary cart">Quick View</button>
                     </a>
@@ -60,12 +58,16 @@ padding-right: 350px;
             </div>
         </div>
         {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last %}
+            </div>
+
+    <div class="row my-flex-card">
+        {% endif %}
+        {% endfor %}
     </div>
-    {% endif %}
-    {% endfor %}
-</div>
 
 {% endfor %}
+</div>
+
 
 <!--</div>-->
 {% endblock %}
@@ -75,6 +77,11 @@ padding-right: 350px;
 
 <script>
     $("#popbox").hide();
+
+
+
+
+
 
 
 
@@ -167,6 +174,11 @@ $('.divpr').on("click", "button.plus", function() {
     document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
     updateCart(cart);
 });
+
+
+
+
+
 
 
 
