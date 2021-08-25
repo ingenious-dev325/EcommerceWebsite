@@ -952,7 +952,7 @@ progress {
 
   .col-sm-4 {
     flex: 0 0 auto;
-    width: 33.33333333%;
+    width: 30.33333333%;
   }
 
   .col-sm-5 {
@@ -1165,7 +1165,7 @@ progress {
 
   .col-md-4 {
     flex: 0 0 auto;
-    width: 33.33333333%;
+    width: 30.33333333%;
   }
 
   .col-md-5 {
@@ -2989,7 +2989,7 @@ textarea.form-control-lg {
   display: inline-block;
   font-weight: 400;
   line-height: 1.5;
-  color: #212529;
+  color: #ffffff;
   text-align: center;
   text-decoration: none;
   vertical-align: middle;
@@ -4022,8 +4022,7 @@ textarea.form-control-lg {
 }
 
 .navbar {
-  position: fixed;
-  width: 100%;
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -4541,6 +4540,10 @@ textarea.form-control-lg {
 .card-body {
   flex: 1 1 auto;
   padding: 1rem 1rem;
+  height:235px;
+  max-height:235px;
+  max-width: 250px;
+  width: 250px;
 }
 
 .card-title {

@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Coming Soon!</title>
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bd-coming-soon.css' %}">
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+
+    <header>
+        <div class="container">
+            <nav class="comingnavbar comingnavbar-dark comingbg-transparenet">
+                <a class="comingnavbar-brand" href="#">
+                    <img class="logo" src="{% static 'images/T&B logo shadow.png' %}">
+                </a>
+            </nav>
+        </div>
+    </header>
+    <main class="my-auto">
+        <div class="container">
+            <h1 class="page-title">We're coming soon!!</h1>
+            <p class="page-description">Kindly wait for us to provide you a platform to buy the best cake in the city.
+            </p>
+            <p>Stay connected</p>
+            <a class="backtohome" href="{% url 'index' %}" align="center"><h3>Back to Home</h3> </a>
+            <nav class="footer-social-links">
+                <a href="#!" class="social-link"><i class="mdi mdi-facebook-box"></i></a>
+                <a href="#!" class="social-link"><i class="mdi mdi-google"></i></a>
+            </nav>
+        </div>
+    </main>
+</body>
+
+</html>

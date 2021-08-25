@@ -18,6 +18,14 @@ def front(request):
     return render(request, 'front.html')
 
 
+def index(request):
+    return render(request, 'index.html')
+
+
+def comingsoon(request):
+    return render(request, 'comingsoon.html')
+
+
 def products(request):
     allProds = []
     catProds = Product.objects.values('category', 'id')
@@ -29,6 +37,19 @@ def products(request):
         allProds.append([prod, range(1, nSlides), nSlides])
     params = {'allProds': allProds}
     return render(request, 'products.html', params)
+
+
+def products2(request):
+    allProds = []
+    catProds = Product.objects.values('category', 'id')
+    cats = {item['category'] for item in catProds}
+    for cat in cats:
+        prod = Product.objects.filter(category=cat)
+        n = len(prod)
+        nSlides = n // 3 + ceil((n / 3) - (n // 3))
+        allProds.append([prod, range(1, nSlides), nSlides])
+    params = {'allProds': allProds}
+    return render(request, 'products2.html', params)
 
 
 def boxoffour(request):
@@ -57,7 +78,7 @@ def login(request):
     if request.method == 'GET':
         return render(request, 'login.html')
     else:
-        username = request.POST.get("uname")
+        username = request.POST.get("username")
         password = request.POST.get("password")
         res = Register(username=username, password=password)
         if len(res) > 0:

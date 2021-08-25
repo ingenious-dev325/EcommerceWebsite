@@ -20,17 +20,45 @@
     <title>Login Page</title>
 </head>
 <body>
+<style>
 
+html,body{
+height: 100%;
+overflow-y: hidden;
+
+background-image: url('https://images.pexels.com/photos/1120464/pexels-photo-1120464.jpeg?cs=srgb&dl=pexels-julias-torten-und-t%C3%B6rtchen-1120464.jpg&fm=jpg');
+background-size: cover;
+background-repeat: no-repeat;
+<!--height: relative;-->
+font-family: 'Numans', sans-serif;
+}
+
+.container{
+
+height: relative;
+align-content: center;
+margin-top:-100px;
+
+}
+
+.form-block{
+margin-top:25px;
+margin-right:-5px;
+margin-left:50px;
+}
+
+</style>
+<!--<strong>Toast And Berries</strong-->
 
 <div class="content">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6 contents">
+            <div class="col-md-5 contents">
                 <div class="row justify-content-center">
                     <div class="col-md-12">
-                        <div class="form-block">
+                        <div class="form-block" style="position: fixed; right:110px">
                             <div class="mb-4">
-                                <h3>Sign In to <strong>Toast And Berries</strong></h3>
+                                <strong><h3>Sign In</h3></strong>
                                 <!--                  <p class="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p>-->
                             </div>
                             <form action="/login/" method="post">
@@ -49,7 +77,7 @@
 
                                 <div class="d-flex mb-5 align-items-center">
 
-                                    <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span>
+                                    <span class="ml-auto"><a href="#" class="forgot-pzass">Forgot Password</a></span>
                                 </div>
 
                                 <input type="submit" value="Log In"
@@ -74,10 +102,10 @@
                 </div>
 
             </div>
+            </div>
 
         </div>
     </div>
-</div>
 
 
 <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>

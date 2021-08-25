@@ -1,0 +1,106 @@
+body {
+  font-family: 'Karla', sans-serif;
+  background-image: url("../images/landing-img.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: #ffffff;
+  padding-bottom: 75px; }
+  @media (min-width: 768px) {
+    body {
+      padding-bottom: 110px; } }
+
+.comingnavbar-brand {
+  margin-right: 0; }
+
+  .logo {
+    width: 300px;
+    height: 300px;
+  }
+
+  .comingnavbar {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: .5rem 0.5rem;
+    flex-direction: column;
+}
+
+.comingnavbar-dark {
+  padding-top: 35px;
+  padding-bottom: 35px; }
+  .navbar-dark .navbar-text {
+    color: #ffffff;
+    opacity: 1;
+    padding: 0 20px;
+    border-right: 1px solid #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center; }
+    .navbar-dark .navbar-text:last-child {
+      border-right: 0; }
+  @media (max-width: 767px) {
+    .navbar-dark {
+      padding-bottom: 0; } }
+
+.page-title {
+  font-size: 80px;
+  font-weight: bold;
+  font-family: Quicksand;
+  margin-bottom: 6px; }
+  @media (max-width: 767px) {
+    .page-title {
+      font-size: 35px;
+      margin-bottom: 14px; } }
+
+.page-description {
+  max-width: 465px;
+  font-size: 18px;
+  font-family: Quicksand;
+  margin-bottom: 59px; }
+  @media (max-width: 767px) {
+    .page-description {
+      font-size: 14px; } }
+
+p {
+  font-size: 14px;
+  font-family: Quicksand;
+  margin-bottom: 21px; }
+
+.backtohome {
+  text-decoration: none;
+  color:white;
+}
+
+.backtohome:hover {
+  color:#f49d22;
+  text-decoration: none;
+}
+
+.footer-social-links .social-link {
+  display: inline-block;
+  text-align: center;
+  line-height: 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #000000;
+  margin-right: 16px;
+  transition: all 0.3s ease-in-out; }
+  .footer-social-links .social-link:last-child {
+    margin-right: 0; }
+  .footer-social-links .social-link:hover {
+    text-decoration: none;
+    background-color: #000000;
+    color: #ffffff; }
+
+
+
+

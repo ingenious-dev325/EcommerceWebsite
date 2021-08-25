@@ -1,0 +1,320 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Toast And Berries</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index-style.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+
+</head>
+
+<body style="font-family:Quicksand;">
+    <header>
+        <nav>
+            <div class="row clearfix">
+                <img src="{% static 'images/T&B logo shadow.png' %}" class="logo">
+                <ul class="main-nav animate__animated animate__slideInDown" id="class-check">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'products2' %}">Products</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Login/Register</a></li>
+                </ul>
+                <a href="#" class="mobile-icon" onclick="slideshow()"> <i class="fa fa-bars"></i> </a>
+            </div>
+        </nav>
+        <div class="main-content-header">
+            <h1>Welcome To <span class="colorchange">Toast And Berries</span></h1>
+            <h3>"we serve only fresh"</h3>
+            <a href="#" class="btn btn-full">Order Now</a>
+            <a href="#" class="btn btn-nav">Show More</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="categories-front">Categories</div>
+        <div class="row">
+            <div href="{% url 'products' %}" class="column">
+                <div class="card">
+                    <a href="" class="btn-cat">
+                    <div class="card-text">Best Seller</div>
+                    <img class="card-img" src="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="card">
+                    <a href="{% url 'products' %}" class="btn-cat">
+                    <div class="card-text">Desserts</div>
+                    <img class="card-img" src="{% static 'images/dessert.jpg' %}">
+                    </a>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="card">
+                    <a href="{% url 'products' %}" class="btn-cat">
+                    <div class="card-text">Cakes</div>
+                    <img class="card-img" src="{% static 'images/cake.jpg' %}">
+                    </a>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="card">
+                    <a href="{% url 'products' %}" class="btn-cat">
+                    <div class="card-text">Cookies & Brownies</div>
+                    <img class="card-img" src="{% static 'images/brownie.jpg' %}">
+                    </a>
+                </div>
+            </div>
+            <div class="column">
+                <div class="card">
+                    <a href="{% url 'comingsoon' %}" class="btn-cat">
+                    <div class="card-text">Breads & Savoury</div>
+                    <img class="card-img" src="{% static 'images/savoury.jpg' %}">
+                    </a>
+                </div>
+            </div>
+            <div class="column">
+                <div class="card">
+                    <a href="{% url 'comingsoon' %}" class="btn-cat">
+                    <div class="card-text">Weekend Special</div>
+                    <img class="card-img" src="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section>
+        <div class="container">
+            <div class="section-title">
+                <h2>Testimonials</h2>
+                <span class="section-separator"></span>
+                <!-- <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p> -->
+            </div>
+        </div>
+        <div class="testimonials-carousel-wrap">
+            <div class="listing-carousel-button listing-carousel-button-next"><i class="fa fa-caret-right" style="color: #fff; margin-left: 25px;"></i></div>
+            <div class="listing-carousel-button listing-carousel-button-prev"><i class="fa fa-caret-left" style="color: #fff; margin-left: 30px;"></i></div>
+            <div class="testimonials-carousel">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="testi-item">
+                                <div class="testi-avatar"><img src="{% static 'images/21.jpg' %}"></div>
+                                <div class="testimonials-text-before"><i class="fa fa-quote-right"></i></div>
+                                <div class="testimonials-text">
+                                    <div class="listing-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <p>This place has some absolutely delectable desserts! Had ordered a couple of cheesecakes, tarts and macarons. All of these were delicious but I especially loved their blueberry cheesecake. Keep up the good work!</p>
+                                    <a href="#" class="text-link"></a>
+                                    <div class="testimonials-avatar">
+                                        <h3>Harshvardhan Maheshwari</h3>
+                                        <h4>Customer</h4>
+                                    </div>
+                                </div>
+                                <div class="testimonials-text-after"><i class="fa fa-quote-left"></i></div>
+                            </div>
+                        </div>
+
+                        <!--second--->
+                        <div class="swiper-slide">
+                            <div class="testi-item">
+                                <div class="testi-avatar"><img src="{% static 'images/3.jpg' %}"></div>
+                                <div class="testimonials-text-before"><i class="fa fa-quote-right"></i></div>
+                                <div class="testimonials-text">
+                                    <div class="listing-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <p>Did not expect to find a very authentic patisserie in Indore! Pleasantly surprised by their vast menu. Ordered a few tarts, cheescakes and macarons, all of them were delicious. Had reached out to them on Instagram to
+                                        place an order and the response was very quick. Great experience, will definitely re order!</p>
+                                    <a href="#" class="text-link"></a>
+                                    <div class="testimonials-avatar">
+                                        <h3>Meenal Maheshwari</h3>
+                                        <h4>Customer</h4>
+                                    </div>
+                                </div>
+                                <div class="testimonials-text-after"><i class="fa fa-quote-left"></i></div>
+                            </div>
+                        </div>
+                        <!--third-->
+
+                        <div class="swiper-slide">
+                            <div class="testi-item">
+                                <div class="testi-avatar"><img src="{% static 'images/4.jpg' %}"></div>
+                                <div class="testimonials-text-before"><i class="fa fa-quote-right"></i></div>
+                                <div class="testimonials-text">
+                                    <div class="listing-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <p>got the rocher cheesecake, well made. but they messed up with the message on the cake, would've been embarrassing had it been a gift.</p>
+                                    <a href="#" class="text-link"></a>
+                                    <div class="testimonials-avatar">
+                                        <h3>Sourajyoti</h3>
+                                        <h4>Customer</h4>
+                                    </div>
+                                </div>
+                                <div class="testimonials-text-after"><i class="fa fa-quote-left"></i></div>
+                            </div>
+                        </div>
+
+                        <!--fourth-->
+                        <div class="swiper-slide">
+                            <div class="testi-item">
+                                <div class="testi-avatar"><img src="{% static 'images/6.jpg' %}"></div>
+                                <div class="testimonials-text-before"><i class="fa fa-quote-right"></i></div>
+                                <div class="testimonials-text">
+                                    <div class="listing-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <p>Toast & Berries is the best dessert place in the city. I am really glad to discover this place. The desserts were absolutely fresh. A must recommend for all sweet tooth’s.</p>
+                                    <a href="#" class="text-link"></a>
+                                    <div class="testimonials-avatar">
+                                        <h3>Ridwik Modi</h3>
+                                        <h4>Customer</h4>
+                                    </div>
+                                </div>
+                                <div class="testimonials-text-after"><i class="fa fa-quote-left"></i></div>
+                            </div>
+                        </div>
+
+                        <!--fifth-->
+                        <div class="swiper-slide">
+                            <div class="testi-item">
+                                <div class="testi-avatar"><img src="{% static 'images/3.jpg' %}"></div>
+                                <div class="testimonials-text-before"><i class="fa fa-quote-right"></i></div>
+                                <div class="testimonials-text">
+                                    <div class="listing-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <p>Amazing desserts😍Absolutely love everything on their menu😍</p>
+                                    <a href="#" class="text-link"></a>
+                                    <div class="testimonials-avatar">
+                                        <h3>Geetika Bhalani</h3>
+                                        <h4>Customer</h4>
+                                    </div>
+                                </div>
+                                <div class="testimonials-text-after"><i class="fa fa-quote-left"></i></div>
+                            </div>
+                        </div>
+                        <!--testi end-->
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="tc-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-bullets-dynamic" style="width: 70px; text-align:center"><span class="swiper-pagination-bullet swiper-pagination-bullet-active swiper-pagination-bullet-active-main" tabindex="0" role="button" aria-label="Go to slide 1" style="left: 21px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-next"
+                    tabindex="0" role="button" aria-label="Go to slide 2" style="left: 21px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-next-next" tabindex="0" role="button" aria-label="Go to slide 3" style="left: 21px;"></span>
+                <span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 4" style="left: 21px;"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer-->
+    <footer>
+        <div class="content">
+            <div class="left box">
+                <div class="upper">
+                    <div class="topic">About us</div>
+                    <p>About Toast and berries <br>
+                        <br>
+                    </p>
+                </div>
+                <div class="lower">
+                    <div><img src="{% static 'images/FSSAI logo white (2).png' %}" style="width: 140px; height: 68px;" alt="fssai" /><br> &nbsp;&nbsp;
+                        <h9>Lic No.:</h9>
+                    </div>
+
+                </div>
+            </div>
+            <div class="middle box">
+                <div class="topic">Our Services</div>
+                <div><a href="" style="text-decoration:none;">Home</a></div>
+
+            </div>
+            <div class="right box">
+                <div class="topic">Contact us</div>
+                <div class="phone">
+                    <a href="/contact" style="text-decoration:none;"><i class="fas fa-phone"></i>&nbsp;&nbsp;+91 94072 30206</a>
+                </div>
+                <br>
+                <div class="address">
+                    <a href="/contact" style="text-decoration:none;"><i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;2,
+                    opposite Income Tax
+                    Office, White
+                    Church
+                    Colony, Residency Area, Indore, Madhya Pradesh 452001</a>
+                </div>
+                <br>
+                <div class="email">
+                    <a href="/contact" style="text-decoration:none;"><i class="fas fa-envelope"></i>&nbsp;&nbsp;toastandberries@gmail.com</a>
+                </div>
+                <div class="media-icons">
+                    <a href="https://www.facebook.com/toastandberries/"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/toastandberries/"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <br>
+            <div class="bottom">
+                <p>Copyright © 2021
+                    <a href="#"></a> All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
+    <script src="{% static 'js/testimonials.js' %}"></script>
+
+
+
+    <script type="text/javascript">
+        function slideshow() {
+            var x = document.getElementById('class-check');
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+
+</html>
