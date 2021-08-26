@@ -43,18 +43,18 @@
     <div class="container">
         <div class="categories-front">Categories</div>
         <div class="row">
-            <div class="column">
+            <div href="{% url 'products' %}" class="column">
                 <div class="card">
-                    <a href="/products2">
+                    <a href="{% url 'products' %}" class="btn-cat">
                     <div class="card-text">Best Seller</div>
-                    <img class="card-img" src="{% static 'images/dessert.jpg' %}">
+                    <img class="card-img" src="">
                     </a>
                 </div>
             </div>
 
             <div class="column">
                 <div class="card">
-                    <a href="/products2">
+                    <a href="{% url 'products' %}" class="btn-cat">
                     <div class="card-text">Desserts</div>
                     <img class="card-img" src="{% static 'images/dessert.jpg' %}">
                     </a>
@@ -63,7 +63,7 @@
 
             <div class="column">
                 <div class="card">
-                    <a href="/products2">
+                    <a href="{% url 'products' %}" class="btn-cat">
                     <div class="card-text">Cakes</div>
                     <img class="card-img" src="{% static 'images/cake.jpg' %}">
                     </a>
@@ -72,7 +72,7 @@
 
             <div class="column">
                 <div class="card">
-                    <a href="/products2">
+                    <a href="{% url 'products' %}" class="btn-cat">
                     <div class="card-text">Cookies & Brownies</div>
                     <img class="card-img" src="{% static 'images/brownie.jpg' %}">
                     </a>
@@ -80,7 +80,7 @@
             </div>
             <div class="column">
                 <div class="card">
-                    <a href="/products2">
+                    <a href="{% url 'comingsoon' %}" class="btn-cat">
                     <div class="card-text">Breads & Savoury</div>
                     <img class="card-img" src="{% static 'images/savoury.jpg' %}">
                     </a>
@@ -88,9 +88,9 @@
             </div>
             <div class="column">
                 <div class="card">
-                    <a href="/products2">
-                    <div class="card-text">Box of Four</div>
-                    <img class="card-img" src="{% static 'images/savoury.jpg' %}">
+                    <a href="{% url 'comingsoon' %}" class="btn-cat">
+                    <div class="card-text">Weekend Special</div>
+                    <img class="card-img" src="">
                     </a>
                 </div>
             </div>
