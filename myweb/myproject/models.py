@@ -49,9 +49,9 @@ class Order(models.Model):
     phone = models.CharField(max_length=70, default="")
     add1 = models.CharField(max_length=111)
     add2 = models.CharField(max_length=111)
-    country = models.CharField(max_length=111)
-    state = models.CharField(max_length=111)
-    zip_code = models.CharField(max_length=111)
+    city = models.CharField(max_length=111)
+    area = models.CharField(max_length=111)
+    pincode = models.CharField(max_length=111)
 
 
 class OrderUpdate(models.Model):
