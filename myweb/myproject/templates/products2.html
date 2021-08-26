@@ -25,7 +25,7 @@ padding-right: 350px;
 {% block body %}
 {% load static %}
 <body>
-<div class="container" style="margin-left:15px">
+<div class="container">
     <div class="row my-flex-card">
     {% for product, range, nSlides in allProds %}
     <center><h2 style="text-transform: capitalize">{{product.0.category}}</h2></center>
@@ -34,11 +34,16 @@ padding-right: 350px;
         {% for i in product %}
 
         <div class="col-lg-4 col-md-4 col-8" >
-            <div class="card align-items-center" style="width: 140; padding-left: 10px; height: 150;">
-                <img src='/media/{{i.image}}' class="card-img-top" alt="..." style="width: 120; padding-left: 2px; padding-right: 2px; height: 150;">
+            <div class="card align-items-center">
+                <img src='/media/{{i.image}}' class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h6 class="card-title" id="namepr{{i.id}}">{{i.product_name|slice:"0:23"}}</h6>
-                    <p class="card-text">{{i.desc|slice:"0:40"}}...</p><br>
+                    {% if i.product_name|length > 28 %}
+                        <h6 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h6>
+                    {% else %}
+                        <h6 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h6>
+                        <br>
+                    {% endif %}
+<!--                    <p class="card-text">{{i.desc|slice:"0:40"}}...</p><br>-->
                     <h6 class="card-title">Rs. <span id="pricepr{{i.id}}">{{i.price}}</span>
                     </h6>
                     <span id="divpr{{i.id}}" class="divpr">
@@ -57,7 +62,6 @@ padding-right: 350px;
         {% endif %}
         {% endfor %}
     </div>
-
 {% endfor %}
 </div>
 
