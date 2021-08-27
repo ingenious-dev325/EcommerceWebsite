@@ -42,10 +42,10 @@ def products(request):
 
 def products2(request):
     allProds = []
-    catProds = Product.objects.values('subcategory', 'id')
+    catProds = Product.objects.values('subcategory', 'id').order_by('sequence_id')
     cats = {item['subcategory'] for item in catProds}
     for cat in cats:
-        prod = Product.objects.filter(subcategory=cat)
+        prod = Product.objects.filter(subcategory=cat).order_by('sequence_id')
         n = len(prod)
         nSlides = n // 3 + ceil((n / 3) - (n // 3))
         allProds.append([prod, range(1, nSlides), nSlides])

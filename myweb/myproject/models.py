@@ -15,6 +15,7 @@ class Register(models.Model):
 
 class Product(models.Model):
     product_id = models.AutoField
+    sequence_id = models.IntegerField(default=0)
     product_name = models.CharField(max_length=50)
     category = models.CharField(max_length=50, default="")
     subcategory = models.CharField(max_length=50, default="")
