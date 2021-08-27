@@ -44,7 +44,6 @@ class Order(models.Model):
     amount = models.IntegerField(default="0")
     fname = models.CharField(max_length=90)
     lname = models.CharField(max_length=111)
-    uname = models.CharField(max_length=111)
     email = models.CharField(max_length=70, default="")
     phone = models.CharField(max_length=70, default="")
     add1 = models.CharField(max_length=111)

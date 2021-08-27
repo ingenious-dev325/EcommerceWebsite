@@ -183,7 +183,6 @@ def checkout(request):
         amount = request.POST.get('amount', '')
         fname = request.POST.get('fname', '')
         lname = request.POST.get('lname', '')
-        uname = request.POST.get('uname', '')
         email = request.POST.get('email', '')
         phone = request.POST.get('phone', '')
         add1 = request.POST.get('add1', '')
@@ -191,7 +190,7 @@ def checkout(request):
         city = request.POST.get('city', '')
         area = request.POST.get('area', '')
         pincode = request.POST.get('pincode', '')
-        order = Order(items_json=items_json, amount=amount, fname=fname, lname=lname, uname=uname, email=email,
+        order = Order(items_json=items_json, amount=amount, fname=fname, lname=lname, email=email,
                       phone=phone, add1=add1,
                       add2=add2, city=city, area=area, pincode=pincode)
         order.save()
@@ -224,7 +223,6 @@ def boxcheckout(request):
         amount = request.POST.get('amount', '')
         fname = request.POST.get('fname', '')
         lname = request.POST.get('lname', '')
-        uname = request.POST.get('uname', '')
         email = request.POST.get('email', '')
         phone = request.POST.get('phone', '')
         add1 = request.POST.get('add1', '')
@@ -232,7 +230,7 @@ def boxcheckout(request):
         city = request.POST.get('city', '')
         area = request.POST.get('area', '')
         pincode = request.POST.get('pincode', '')
-        order = Order(items_json=items_json, amount=amount, fname=fname, lname=lname, uname=uname, email=email,
+        order = Order(items_json=items_json, amount=amount, fname=fname, lname=lname, email=email,
                       phone=phone, add1=add1,
                       add2=add2, city=city, area=area, pincode=pincode)
         order.save()
