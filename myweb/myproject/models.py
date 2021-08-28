@@ -15,6 +15,7 @@ class Register(models.Model):
 
 class Product(models.Model):
     product_id = models.AutoField
+    sequence_id = models.IntegerField(default=0)
     product_name = models.CharField(max_length=50)
     category = models.CharField(max_length=50, default="")
     subcategory = models.CharField(max_length=50, default="")
@@ -44,14 +45,13 @@ class Order(models.Model):
     amount = models.IntegerField(default="0")
     fname = models.CharField(max_length=90)
     lname = models.CharField(max_length=111)
-    uname = models.CharField(max_length=111)
     email = models.CharField(max_length=70, default="")
     phone = models.CharField(max_length=70, default="")
     add1 = models.CharField(max_length=111)
     add2 = models.CharField(max_length=111)
-    country = models.CharField(max_length=111)
-    state = models.CharField(max_length=111)
-    zip_code = models.CharField(max_length=111)
+    city = models.CharField(max_length=111)
+    area = models.CharField(max_length=111)
+    pincode = models.CharField(max_length=111)
 
 
 class OrderUpdate(models.Model):

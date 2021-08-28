@@ -1,11 +1,12 @@
 import json
 from math import ceil
-from django.contrib.auth import authenticate, login, logout
+
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
-from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
 from .Paytm import Checksum
 from .models import Product, Contact, Order, OrderUpdate, Register
@@ -41,10 +42,10 @@ def products(request):
 
 def products2(request):
     allProds = []
-    catProds = Product.objects.values('category', 'id')
-    cats = {item['category'] for item in catProds}
+    catProds = Product.objects.values('subcategory', 'id').order_by('sequence_id')
+    cats = {item['subcategory'] for item in catProds}
     for cat in cats:
-        prod = Product.objects.filter(category=cat)
+        prod = Product.objects.filter(subcategory=cat).order_by('sequence_id')
         n = len(prod)
         nSlides = n // 3 + ceil((n / 3) - (n // 3))
         allProds.append([prod, range(1, nSlides), nSlides])
@@ -182,17 +183,16 @@ def checkout(request):
         amount = request.POST.get('amount', '')
         fname = request.POST.get('fname', '')
         lname = request.POST.get('lname', '')
-        uname = request.POST.get('uname', '')
         email = request.POST.get('email', '')
         phone = request.POST.get('phone', '')
         add1 = request.POST.get('add1', '')
         add2 = request.POST.get('add2', '')
-        country = request.POST.get('country', '')
-        state = request.POST.get('state', '')
-        zip_code = request.POST.get('zip_code', '')
-        order = Order(items_json=items_json, amount=amount, fname=fname, lname=lname, uname=uname, email=email,
+        city = request.POST.get('city', '')
+        area = request.POST.get('area', '')
+        pincode = request.POST.get('pincode', '')
+        order = Order(items_json=items_json, amount=amount, fname=fname, lname=lname, email=email,
                       phone=phone, add1=add1,
-                      add2=add2, country=country, state=state, zip_code=zip_code)
+                      add2=add2, city=city, area=area, pincode=pincode)
         order.save()
         update = OrderUpdate(order_id=order.order_id, update_desc="the Order has been placed Successfully...")
         update.save()
@@ -223,17 +223,16 @@ def boxcheckout(request):
         amount = request.POST.get('amount', '')
         fname = request.POST.get('fname', '')
         lname = request.POST.get('lname', '')
-        uname = request.POST.get('uname', '')
         email = request.POST.get('email', '')
         phone = request.POST.get('phone', '')
         add1 = request.POST.get('add1', '')
         add2 = request.POST.get('add2', '')
-        country = request.POST.get('country', '')
-        state = request.POST.get('state', '')
-        zip_code = request.POST.get('zip_code', '')
-        order = Order(items_json=items_json, amount=amount, fname=fname, lname=lname, uname=uname, email=email,
+        city = request.POST.get('city', '')
+        area = request.POST.get('area', '')
+        pincode = request.POST.get('pincode', '')
+        order = Order(items_json=items_json, amount=amount, fname=fname, lname=lname, email=email,
                       phone=phone, add1=add1,
-                      add2=add2, country=country, state=state, zip_code=zip_code)
+                      add2=add2, city=city, area=area, pincode=pincode)
         order.save()
         update = OrderUpdate(order_id=order.order_id, update_desc="Your Order has been placed Successfully...")
         update.save()
