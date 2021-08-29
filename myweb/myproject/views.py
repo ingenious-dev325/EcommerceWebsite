@@ -53,6 +53,59 @@ def products2(request):
     return render(request, 'products2.html', params)
 
 
+def desserts(request):
+    allProds = []
+    catProds = Product.objects.values('subcategory', 'id').filter(category='Desserts').order_by('sequence_id')
+    cats = {item['subcategory'] for item in catProds}
+    for cat in cats:
+        prod = Product.objects.filter(subcategory=cat).order_by('sequence_id')
+        n = len(prod)
+        nSlides = n // 3 + ceil((n / 3) - (n // 3))
+        allProds.append([prod, range(1, nSlides), nSlides])
+    params = {'allProds': allProds}
+    return render(request, 'desserts.html', params)
+
+
+def bestseller(request):
+    allProds = []
+    catProds = Product.objects.values('subcategory', 'id').filter(category='Best Seller').order_by('sequence_id')
+    cats = {item['subcategory'] for item in catProds}
+    for cat in cats:
+        prod = Product.objects.filter(subcategory=cat).order_by('sequence_id')
+        n = len(prod)
+        nSlides = n // 3 + ceil((n / 3) - (n // 3))
+        allProds.append([prod, range(1, nSlides), nSlides])
+    params = {'allProds': allProds}
+    return render(request, 'bestseller.html', params)
+
+
+def cakes(request):
+    allProds = []
+    catProds = Product.objects.values('subcategory', 'id').filter(category='Cakes').order_by('sequence_id')
+    cats = {item['subcategory'] for item in catProds}
+    for cat in cats:
+        prod = Product.objects.filter(subcategory=cat).order_by('sequence_id')
+        n = len(prod)
+        nSlides = n // 3 + ceil((n / 3) - (n // 3))
+        allProds.append([prod, range(1, nSlides), nSlides])
+    params = {'allProds': allProds}
+    return render(request, 'cakes.html', params)
+
+
+def cookiesandbrownies(request):
+    allProds = []
+    catProds = Product.objects.values('subcategory', 'id').filter(category='Cookies And Brownies').order_by(
+        'sequence_id')
+    cats = {item['subcategory'] for item in catProds}
+    for cat in cats:
+        prod = Product.objects.filter(subcategory=cat).order_by('sequence_id')
+        n = len(prod)
+        nSlides = n // 3 + ceil((n / 3) - (n // 3))
+        allProds.append([prod, range(1, nSlides), nSlides])
+    params = {'allProds': allProds}
+    return render(request, 'cookiesandbrownies.html', params)
+
+
 def boxoffour(request):
     # products = Product.objects.all()
     # print(products)
