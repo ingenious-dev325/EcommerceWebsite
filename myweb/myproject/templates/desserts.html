@@ -16,8 +16,8 @@ padding-right: 350px;
 
 .my-flex-card > div > div > div.card {
     justify-content:space-around;
-    height: calc(100% - 55px);
-    margin-bottom: 15px;
+    /*height: calc(100% - 55px);*/
+    margin-bottom: 10px;
 }
 
 </style>
@@ -27,18 +27,17 @@ padding-right: 350px;
 <body>
 <div class="container">
     <div class="row my-flex-card">
-    <center><h2 style="text-transform: capitalize">Desserts</h2></center>
+    <center><h2 style="text-transform: capitalize;">Desserts</h2></center><br><br>
     {% for product, range, nSlides in allProds %}
-    
-    <center><h3 style="text-transform: capitalize">{{product.0.subcategory}}</h3></center>
+    <center><h3 style="text-transform: capitalize; color: #A64142 ">{{product.0.subcategory}}</h3></center>
     <div class="row my-flex-card">
         {% for i in product %}
 
-        <div class="col-lg-4 col-md-4 col-8" >
+        <div class="col-lg-4 col-md-4 col-12" >
             <div class="card align-items-center">
                 <img src='/media/{{i.image}}' class="card-img-top" alt="...">
                 <div class="card-body">
-                    {% if i.product_name|length > 28 %}
+                    {% if i.product_name|length > 20 %}
                         <h6 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h6>
                     {% else %}
                         <h6 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h6>
@@ -47,12 +46,15 @@ padding-right: 350px;
 <!--                    <p class="card-text">{{i.desc|slice:"0:40"}}...</p><br>-->
                     <h6 class="card-title">Rs. <span id="pricepr{{i.id}}">{{i.price}}</span>
                     </h6>
-                    <span id="divpr{{i.id}}" class="divpr">
-                        <button id="pr{{i.id}}" class="btn btn-primary cart">Add To Cart</button>
-                    </span>
-                    <a href="/products/{{i.id}}">
-                        <button id="qv{{i.id}}" class="btn btn-primary cart">Quick View</button>
-                    </a>
+
+                    <center>
+                        <span id="divpr{{i.id}}" class="divpr">
+                            <button id="pr{{i.id}}" class="btn btn-primary cart">Add To Cart</button>
+                        </span>
+                        <a href="/products/{{i.id}}">
+                            <button id="qv{{i.id}}" class="btn btn-primary cart">Quick View</button>
+                        </a>
+                    </center>
                 </div>
             </div>
         </div>
@@ -126,7 +128,7 @@ function updatePopover(cart) {
     popStr = popStr + "</div> <a href='/checkout'><button class='btn btn-primary' id ='checkout'>Checkout</button></a> <button class='btn btn-primary' onclick='clearCart()' id ='clearCart'>Clear Cart</button>     "
     console.log(popStr);
     document.getElementById('popcart').setAttribute('data-content', popStr);
-    // $('#popcart').popover('show');
+<!--    $('#popcart').popover('show');-->
 }
 
 function clearCart() {
