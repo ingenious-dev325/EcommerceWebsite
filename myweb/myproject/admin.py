@@ -8,3 +8,4 @@ admin.site.register(Contact)
 admin.site.register(Order)
 admin.site.register(OrderUpdate)
 admin.site.register(Register)
+

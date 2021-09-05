@@ -1,0 +1,28 @@
+{% extends "admin/login.html" %}
+
+{% load i18n static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+#header {
+  background-color: transparent !important;
+}
+
+</style>
+{% endblock %}
+
+{% block branding %}
+<h1>
+  <span style="color: #57C5A5 !important">Toast and Berries</span>
+  <span style="color: #57C5A5 !important">( Admin Portal )</span>
+  <br />
+  <small>{% block head_title %}{% endblock %}</small>
+</h1>
+{% endblock %}
+
+{% block content_title %}
+<center><p class="lead" style="font-size: larger">
+    Toast and Berries's Database.
+</p></center>
+{% endblock %}

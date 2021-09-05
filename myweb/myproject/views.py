@@ -22,6 +22,31 @@ def front(request):
 def index(request):
     return render(request, 'index.html')
 
+def desserts(request):
+    allProds = []
+    catProds = Product.objects.values('subcategory', 'id').order_by('sequence_id')
+    cats = {item['subcategory'] for item in catProds}
+    for cat in cats:
+        prod = Product.objects.filter(subcategory=cat).order_by('sequence_id')
+        n = len(prod)
+        nSlides = n // 3 + ceil((n / 3) - (n // 3))
+        allProds.append([prod, range(1, nSlides), nSlides])
+    params = {'allProds': allProds}
+    
+    return render(request, 'desserts.html', params)
+
+def bestseller(request):
+    allProds = []
+    catProds = Product.objects.values('subcategory', 'id').order_by('sequence_id')
+    cats = {item['subcategory'] for item in catProds}
+    for cat in cats:
+        prod = Product.objects.filter(subcategory=cat).order_by('sequence_id')
+        n = len(prod)
+        nSlides = n // 3 + ceil((n / 3) - (n // 3))
+        allProds.append([prod, range(1, nSlides), nSlides])
+    params = {'allProds': allProds}
+    
+    return render(request, 'bestseller.html', params)
 
 def comingsoon(request):
     return render(request, 'comingsoon.html')
