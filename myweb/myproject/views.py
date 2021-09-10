@@ -1,17 +1,22 @@
 import json
+import razorpay
 from math import ceil
-
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.conf import settings
+from django.http import HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 
-from .Paytm import Checksum
 from .models import Product, Contact, Order, OrderUpdate, Register
 
 MERCHANT_KEY = 're4IKy2WlZxGssBe';
+
+# authorize razorpay client with API Keys.
+razorpay_client = razorpay.Client(
+    auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET_KEY))
 
 
 # Create your views here.
@@ -25,6 +30,14 @@ def index(request):
 
 def comingsoon(request):
     return render(request, 'comingsoon.html')
+
+
+def paymentfailed(request):
+    return render(request, 'paymentfailed.html')
+
+
+def paymentsuccess(request):
+    return render(request, 'paymentsuccess.html')
 
 
 def products(request):
@@ -104,28 +117,6 @@ def cookiesandbrownies(request):
         allProds.append([prod, range(1, nSlides), nSlides])
     params = {'allProds': allProds}
     return render(request, 'cookiesandbrownies.html', params)
-
-
-def boxoffour(request):
-    # products = Product.objects.all()
-    # print(products)
-    # n = len(products)
-    # nSlides = n // 4 + ceil((n / 4) - (n // 4))
-
-    allProds = []
-    catProds = Product.objects.values('category', 'id')
-    cats = {item['category'] for item in catProds}
-    for cat in cats:
-        prod = Product.objects.filter(category=cat)
-        n = len(prod)
-        nSlides = n // 4 + ceil((n / 4) - (n // 4))
-        allProds.append([prod, range(1, nSlides), nSlides])
-
-    # params = {'no_of_slides': nSlides, 'range': range(1, nSlides), 'product': products}
-    # allProds = [[products, range(1, nSlides), nSlides],
-    #             [products, range(1, nSlides), nSlides]]
-    params = {'allProds': allProds}
-    return render(request, 'boxoffour.html', params)
 
 
 def login(request):
@@ -249,82 +240,74 @@ def checkout(request):
         order.save()
         update = OrderUpdate(order_id=order.order_id, update_desc="the Order has been placed Successfully...")
         update.save()
-        thank = True
-        id = order.order_id
-        # return render(request, 'checkout.html', {'thank': thank, 'id': id})
-        # # request paytm to transfer the amount to your account after payment by user.
-        param_dict = {
 
-            'MID': 'UQyjWv73914192289471',
-            'ORDER_ID': str(order.order_id),
-            'TXN_AMOUNT': str(amount),
-            'CUST_ID': email,
-            'INDUSTRY_TYPE_ID': 'Retail',
-            'WEBSITE': 'WEBSTAGING',
-            'CHANNEL_ID': 'WEB',
-            'CALLBACK_URL': 'http://127.0.0.1:8000/handlerequest/',
+        # razorpay
 
-        }
-        param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
-        return render(request, 'paytm.html', {'param_dict': param_dict})
-    return render(request, 'checkout.html')
+        currency = 'INR'
+        amount = 20000  # Rs. 200
+
+        # Create a Razorpay Order
+        razorpay_order = razorpay_client.order.create(dict(amount=amount, currency=currency, payment_capture=1))
+
+        # order id of newly created order.
+        razorpay_order_id = razorpay_order['id']
+        callback_url = 'https://eneqd3r9zrjok.x.pipedream.net/'
+
+        # we need to pass these details to frontend.
+        context = {}
+        context['razorpay_order_id'] = razorpay_order_id
+        context['razorpay_merchant_key'] = settings.RAZORPAY_API_KEY
+        context['razorpay_amount'] = amount
+        context['currency'] = currency
+        context['callback_url'] = callback_url
+
+    return render(request, 'checkout.html', context)
 
 
-def boxcheckout(request):
-    if request.method == "POST":
-        items_json = request.POST.get('itemsJson', '')
-        amount = request.POST.get('amount', '')
-        fname = request.POST.get('fname', '')
-        lname = request.POST.get('lname', '')
-        email = request.POST.get('email', '')
-        phone = request.POST.get('phone', '')
-        add1 = request.POST.get('add1', '')
-        add2 = request.POST.get('add2', '')
-        city = request.POST.get('city', '')
-        area = request.POST.get('area', '')
-        pincode = request.POST.get('pincode', '')
-        order = Order(items_json=items_json, amount=amount, fname=fname, lname=lname, email=email,
-                      phone=phone, add1=add1,
-                      add2=add2, city=city, area=area, pincode=pincode)
-        order.save()
-        update = OrderUpdate(order_id=order.order_id, update_desc="Your Order has been placed Successfully...")
-        update.save()
-        thank = True
-        id = order.order_id
-        # return render(request, 'boxcheckout.html', {'thank': thank, 'id': id})
-        # request paytm to transfer the amount to your account after payment by user.
-        param_dict = {
-
-            'MID': 'UQyjWv73914192289471',
-            'ORDER_ID': str(order.order_id),
-            'TXN_AMOUNT': str(amount),
-            'CUST_ID': email,
-            'INDUSTRY_TYPE_ID': 'Retail',
-            'WEBSITE': 'WEBSTAGING',
-            'CHANNEL_ID': 'WEB',
-            'CALLBACK_URL': 'http://127.0.0.1:8000/handlerequest/',
-
-        }
-        param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
-        return render(request, 'paytm.html', {'param_dict': param_dict})
-    return render(request, 'boxcheckout.html')
-
+# we need to csrf_exempt this url as
+# POST request will be made by Razorpay
+# and it won't have the csrf token.
 
 @csrf_exempt
-def handlerequest(request):
-    # paytm will send you post request here
-    # return HttpResponse('Done')
-    form = request.POST
-    response_dict = {}
-    for i in form.keys():
-        response_dict[i] = form[i]
-        if i == 'CHECKSUMHASH':
-            checksum = form[i]
+def paymenthandler(request):
+    # only accept POST request.
+    if request.method == "POST":
+        try:
 
-    verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
-    if verify:
-        if response_dict['RESPCODE'] == '01':
-            print('order successful')
-        else:
-            print('order was not successful because' + response_dict['RESPMSG'])
-    return render(request, 'paymentstatus.html', {'response': response_dict})
+            # get the required parameters from post request.
+            payment_id = request.POST.get('razorpay_payment_id', '')
+            razorpay_order_id = request.POST.get('razorpay_order_id', '')
+            signature = request.POST.get('razorpay_signature', '')
+            params_dict = {
+                'razorpay_order_id': razorpay_order_id,
+                'razorpay_payment_id': payment_id,
+                'razorpay_signature': signature
+            }
+
+            # verify the payment signature.
+            result = razorpay_client.utility.verify_payment_signature(
+                params_dict)
+            if result is None:
+                amount = 20000  # Rs. 200
+                try:
+
+                    # capture the payment
+                    razorpay_client.payment.capture(payment_id, amount)
+
+                    # render success page on successful capture of payment
+                    return render(request, 'paymentsuccess.html')
+                except:
+
+                    # if there is an error while capturing payment.
+                    return render(request, 'paymentfail.html')
+            else:
+
+                # if signature verification fails.
+                return render(request, 'paymentfail.html')
+        except:
+
+            # if we don't find the required parameters in POST data
+            return HttpResponseBadRequest()
+    else:
+        # if other than POST request is made.
+        return HttpResponseBadRequest()

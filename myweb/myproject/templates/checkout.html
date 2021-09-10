@@ -42,11 +42,9 @@
       background-size: cover;
       background-repeat: no-repeat;
       height: relative;
-
-}
-      .row{
-
       }
+      .row{}
+
 
 
     </style>
@@ -67,17 +65,17 @@
         <div class="col-md-4 order-md-2 mb-4">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-muted">Your cart</span>
-<!--                <span class="badge badge-secondary badge-pill">3</span>-->
+                <!--                <span class="badge badge-secondary badge-pill">3</span>-->
             </h4>
             <ul class="list-group mb-3">
                 <ul class="list-group mb-3" id="items">
 
                 </ul>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Total (INR)</span>
-                        <strong>₹ <span id="totalPrice"></span></strong>
-                    </li>
-                </ul>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (INR)</span>
+                    <strong>₹ <span id="totalPrice"></span></strong>
+                </li>
+            </ul>
 
         </div>
         <div class="col-md-8 order-md-1">
@@ -107,7 +105,8 @@
 
                 <div class="mb-3">
                     <label for="email">Email <span class="text-muted">*</span></label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com"
+                           required>
                     <div class="invalid-feedback">
                         Please enter a valid email address for shipping updates.
                     </div>
@@ -171,7 +170,80 @@
                 </div>
                 <hr class="mb-4">
 
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                <button id="pay-btn" class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                <script>
+                {% load static %}
+                var options = {
+
+                    // Enter the Key ID generated from the Dashboard
+                    key: "{{ razorpay_merchant_key }}",
+
+                    // Amount is in currency subunits.
+                    // Default currency is INR. Hence,
+                     // 50000 refers to 50000 paise
+                    amount: "{{ razorpay_amount }}",
+                    currency: "{{ currency }}",
+
+                    // Your/store name.
+                     name: "Toast And Berries",
+
+                    // Pass the `id` obtained in the response of Step 1
+                    order_id: "{{ razorpay_order_id }}",
+                    callback_url: "{{ callback_url }}",
+                    };
+
+                    // initialise razorpay with the options.
+                    var rzp1 = new Razorpay(options);
+
+                    // add event listener to the payment button.
+                    document.getElementById("pay-btn").onclick = function (e) {
+                        rzp1.open();
+                        e.preventDefault();
+                    };
+
+/*
+                    "key": "{{api_key}}", // Enter the Key ID generated from the Dashboard
+                    /*"amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    "currency": "INR",*/
+                    "name": "Toast And Berries",
+                    "description": "We Serve Only Fresh",
+                    "image": "{% static 'images/T&B logo shadow.png' %}",
+                    "order_id": "{{order.order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                    "handler": function (response){
+                        alert(response.razorpay_payment_id);
+                        alert(response.razorpay_order_id);
+                        alert(response.razorpay_signature);
+                    },
+                    "prefill": {
+                        "name": "Gaurav Kumar",
+                        "email": "gaurav.kumar@example.com",
+                        "contact": "9999999999"
+                    },
+                    /*"notes": {
+                        "address": "Razorpay Corporate Office"
+                    },*/
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
+                var rzp1 = new Razorpay(options);
+                rzp1.on('payment.failed', function (response){
+                        alert(response.error.code);
+                        alert(response.error.description);
+                        alert(response.error.source);
+                        alert(response.error.step);
+                        alert(response.error.reason);
+                        alert(response.error.metadata.order_id);
+                        alert(response.error.metadata.payment_id);
+                });
+                document.getElementById('rzp-button1').onclick = function(e){
+                    rzp1.open();
+                    e.preventDefault();
+                }
+*/
+
+                </script>
                 <br><br>
             </form>
         </div>
@@ -183,12 +255,12 @@
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
 <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')
-
 </script>
 <script src="https://getbootstrap.com/docs/4.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
         crossorigin="anonymous"></script>
 <script src="https://getbootstrap.com/docs/4.3/examples/checkout/form-validation.js"></script>
+
 </body>
 </html>
 
@@ -201,6 +273,7 @@
 <script>
     $("#popbox").hide();
     $("#popcart").hide();
+
 
 </script>
 
@@ -253,6 +326,8 @@ $('#amount').val($('#totalPrice').html())
 
 
 
+
 </script>
+
 
 {% endblock %}
