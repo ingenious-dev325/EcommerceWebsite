@@ -261,7 +261,7 @@ def checkout(request):
         context['currency'] = currency
         context['callback_url'] = callback_url
 
-    return render(request, 'checkout.html', context)
+    return render(request, 'checkout.html', context=context)
 
 
 # we need to csrf_exempt this url as
