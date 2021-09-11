@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'myproject',
 ]
 
 MIDDLEWARE = [
@@ -132,4 +131,3 @@ MEDIA_URL = '/media/'
 
 RAZORPAY_API_KEY = 'rzp_test_Fch1vlb7ld39sf'
 RAZORPAY_API_SECRET_KEY = 'NHmqBKxtrwX2x6HNtgZXLeNq'
-
