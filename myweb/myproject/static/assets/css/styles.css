@@ -3034,13 +3034,13 @@ fieldset:disabled .btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #f49d22;
-    border-color: #000;
+    background-color: #0b5ed7;
+    border-color: #fff;
 }
 
 .btn-primary:hover {
     color: #fff;
-    background-color: rgb(165, 65, 66);
+    background-color: #0b5ed7;
     border-color: #000;
 }
 
@@ -4871,7 +4871,7 @@ fieldset:disabled .btn {
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: #000;
+    background-color: #fff;
     background-clip: border-box;
     /*border: 8px solid #f49d22;
     border-radius: 2rem;*/
@@ -4910,7 +4910,7 @@ fieldset:disabled .btn {
     padding-left: 1rem;
     padding-right: 1rem;
     height: 150px;
-    color: #f49d22;
+    color: #000;
 }
 
 .card-title {

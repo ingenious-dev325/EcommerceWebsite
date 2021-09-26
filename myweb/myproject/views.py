@@ -12,16 +12,14 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import Product, Contact, Order, OrderUpdate, Register
 
-MERCHANT_KEY = 're4IKy2WlZxGssBe';
-
-# authorize razorpay client with API Keys.
-razorpay_client = razorpay.Client(
-    auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET_KEY))
-
-
 # Create your views here.
 def front(request):
     return render(request, 'front.html')
+
+def orderlist(request):
+    order_list = Order.objects.all()
+    return render(request, 'orderlist.html', 
+        {'order_list': order_list})
 
 
 def index(request):
@@ -119,19 +117,6 @@ def cookiesandbrownies(request):
     return render(request, 'cookiesandbrownies.html', params)
 
 
-def login(request):
-    if request.method == 'GET':
-        return render(request, 'login.html')
-    else:
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        res = Register(username=username, password=password)
-        if len(res) > 0:
-            return render(request, 'front.html', {'output': "Login Successful"})
-        else:
-            return render(request, 'login.html', {'output': "Login Failed!!!"})
-
-
 def register(request):
     if request.method == 'GET':
         return render(request, 'register.html')
@@ -143,6 +128,19 @@ def register(request):
         register = Register(username=username, email=email, password=password, phone=phone)
         register.save()
     return render(request, 'login.html', {'output': "Register Successfully"})
+
+
+def login(request):
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    else:
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        res = Register.objects.filter(username=username, password=password).exists()
+        if res:
+            return render(request, 'front.html', {'output': "Login Successful"})
+        else:
+            return render(request, 'login.html', {'output': "Login Failed!!!"})
 
 
 @login_required()
@@ -241,27 +239,53 @@ def checkout(request):
         update = OrderUpdate(order_id=order.order_id, update_desc="the Order has been placed Successfully...")
         update.save()
 
+        return render(request, 'checkout.html')
+
+    else:
+        # authorize razorpay client with API Keys.
+        razorpay_client = razorpay.Client(
+            auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET_KEY))
+        razorpay_client.set_app_details({"title": "Django", "version": "3.2.7"})
         # razorpay
 
         currency = 'INR'
-        amount = 20000  # Rs. 200
-
+        items = request.GET.get('items').split(',')
+        quantity = request.GET.get('quantity').split(',')
+        total_amount = 0
+        for index, item in enumerate(items):
+            product = Product.objects.get(id=item)
+            total_amount = total_amount + (product.price* int(quantity[index]) )
+        order_amount = total_amount * 100  # Rs. converted to paise for razor pay
         # Create a Razorpay Order
-        razorpay_order = razorpay_client.order.create(dict(amount=amount, currency=currency, payment_capture=1))
+        razorpay_order = razorpay_client.order.create(dict(amount=order_amount, currency=currency, payment_capture=1))
 
         # order id of newly created order.
         razorpay_order_id = razorpay_order['id']
         callback_url = 'https://eneqd3r9zrjok.x.pipedream.net/'
 
         # we need to pass these details to frontend.
-        context = {}
-        context['razorpay_order_id'] = razorpay_order_id
-        context['razorpay_merchant_key'] = settings.RAZORPAY_API_KEY
-        context['razorpay_amount'] = amount
-        context['currency'] = currency
-        context['callback_url'] = callback_url
+        context = {
+            'razorpay_order_id': razorpay_order_id,
+            'razorpay_merchant_key': settings.RAZORPAY_API_KEY,
+            'razorpay_amount': order_amount,
+            'currency': currency,
+            'callback_url': callback_url,
+            }
 
-    return render(request, 'checkout.html', context=context)
+        return render(request, 'checkout.html', context)
+
+    # else:
+    #     client = razorpay.Client(auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET_KEY))
+    #     amt = 500 # inr
+    #     amt_paise = amt*100
+    #     data = { "amount": amt_paise, "currency": "INR", "receipt": "order_rcptid_11" }
+    #     payment = client.order.create(data=data)
+    #     context={
+    #         'razorpay_merchant_key': settings.RAZORPAY_API_KEY,
+    #         'razorpay_order_id':payment['id'],
+    #         'amt_paise':amt_paise
+    #     }
+    #     return render(request, 'pay.html', context)
 
 
 # we need to csrf_exempt this url as
@@ -272,6 +296,10 @@ def checkout(request):
 def paymenthandler(request):
     # only accept POST request.
     if request.method == "POST":
+         # authorize razorpay client with API Keys.
+        razorpay_client = razorpay.Client(
+            auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET_KEY))
+        razorpay_client.set_app_details({"title": "Django", "version": "3.2.7"})
         try:
 
             # get the required parameters from post request.

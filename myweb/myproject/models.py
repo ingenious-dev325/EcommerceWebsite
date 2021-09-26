@@ -10,7 +10,7 @@ class Register(models.Model):
     phone = models.CharField(max_length=50)
 
     def __str__(self):
-        return "username"+self.username + "email"+self.email + "phone"+self.phone
+        return self.username
 
 
 class Product(models.Model):
