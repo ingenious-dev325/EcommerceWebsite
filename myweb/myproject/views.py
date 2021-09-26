@@ -12,14 +12,16 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import Product, Contact, Order, OrderUpdate, Register
 
+
 # Create your views here.
 def front(request):
     return render(request, 'front.html')
 
+
 def orderlist(request):
     order_list = Order.objects.all()
-    return render(request, 'orderlist.html', 
-        {'order_list': order_list})
+    return render(request, 'orderlist.html',
+                  {'order_list': order_list})
 
 
 def index(request):
@@ -254,7 +256,7 @@ def checkout(request):
         total_amount = 0
         for index, item in enumerate(items):
             product = Product.objects.get(id=item)
-            total_amount = total_amount + (product.price* int(quantity[index]) )
+            total_amount = total_amount + (product.price * int(quantity[index]))
         order_amount = total_amount * 100  # Rs. converted to paise for razor pay
         # Create a Razorpay Order
         razorpay_order = razorpay_client.order.create(dict(amount=order_amount, currency=currency, payment_capture=1))
@@ -270,7 +272,7 @@ def checkout(request):
             'razorpay_amount': order_amount,
             'currency': currency,
             'callback_url': callback_url,
-            }
+        }
 
         return render(request, 'checkout.html', context)
 
@@ -296,7 +298,7 @@ def checkout(request):
 def paymenthandler(request):
     # only accept POST request.
     if request.method == "POST":
-         # authorize razorpay client with API Keys.
+        # authorize razorpay client with API Keys.
         razorpay_client = razorpay.Client(
             auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET_KEY))
         razorpay_client.set_app_details({"title": "Django", "version": "3.2.7"})
